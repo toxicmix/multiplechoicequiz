@@ -6,7 +6,7 @@ var choiceBEl =  $('#choiceB');
 var choiceCEl =  $('#choiceC');
 var choice = document.getElementById("choice");
 var score = 0;
-
+var currentQuestion = 0;
 
 var count = localStorage.getItem("count");
 
@@ -17,23 +17,38 @@ function main(){
 
 console.log("score: " +score)
 choiceAEl.on('click', function () {
-    if(myQuestions.correctAnswer === "a"){
+    if(myQuestions[currentQuestion].correctAnswer === "a"){
         score++;
-    }
-    console.log("score: " +score)
-});
-choiceBEl.on('click', function () {
-    if(myQuestions.correctAnswer === "b"){
-        score++;
-    }
-    console.log("score: " +score)
-});
-choiceCEl.on('click', function () {
-    if(myQuestions.correctAnswer === "c"){
-        score++;
-        
     }
     console.log("score: " +score);
+    if(currentQuestion < myQuestions.length-1){
+        currentQuestion++;
+    }
+    else{
+        newScore();
+        return;
+    }
+    renderQuestion();
+});
+choiceBEl.on('click', function () {
+    if(myQuestions[currentQuestion].correctAnswer === "b"){
+        score++;
+    }
+    console.log("score: " +score);
+    if(currentQuestion < myQuestions.length-1){
+        currentQuestion++;
+    }
+    renderQuestion();
+});
+choiceCEl.on('click', function () {
+    if(myQuestions[currentQuestion].correctAnswer === "c"){
+        score++;
+    }
+    console.log("score: " +score);
+    if(currentQuestion < myQuestions.length-1){
+        currentQuestion++;
+    }
+    renderQuestion();
 });
 
 
@@ -69,20 +84,14 @@ function setTime() {
   }, 1000);
 }
 function newScore(){
-
+    
 }
 
 function renderQuestion(){
-
-    myQuestions.forEach(display);
-
-    function display(item){
-        questionEl.text(item.question);
-        choiceAEl.text(item.answers.a);
-        choiceBEl.text(item.answers.b);
-        choiceCEl.text(item.answers.c);
-    }
-
+        questionEl.text(myQuestions[currentQuestion].question);
+        choiceAEl.text(myQuestions[currentQuestion].answers.a);
+        choiceBEl.text(myQuestions[currentQuestion].answers.b);
+        choiceCEl.text(myQuestions[currentQuestion].answers.c);
 }
 
 const myQuestions = [
